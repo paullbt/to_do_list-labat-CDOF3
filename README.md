@@ -5,4 +5,7 @@ In this To Do List, you can create, delete, complete and view the task, you can 
 
 To run this project, you just have ton run the file to_do_list.py and select what you want on your terminal.
 
-To contribute on my porject you can modify the to_do_list.y.
+To contribute on my project you can modify the to_do_list.py.
+
+Everything you need to do once the file is ran will be prompted on the terminal.
+
