@@ -3,81 +3,85 @@ from colorama import init, Fore, Style
 # Initialize colorama
 init(autoreset=True)
 
+
 class TaskManager:
     def __init__(self):
         self.tasks = []
 
-    def display_menu(self):
-        print("\n=== " + Fore.CYAN + "Task Manager" + Style.RESET_ALL + " ===")
-        print("1. " + Fore.GREEN + "Add Task" + Style.RESET_ALL)
-        print("2. " + Fore.YELLOW + "View Tasks" + Style.RESET_ALL)
-        print("3. " + Fore.BLUE + "Mark Task as Complete" + Style.RESET_ALL)
-        print("4. " + Fore.MAGENTA + "Delete Task" + Style.RESET_ALL)
-        print("5. " + Fore.RED + "Exit" + Style.RESET_ALL)
+    def menu(self):
+        print("\nTask Manager Menu:")
+        print("1. Add Task")
+        print("2. View Tasks")
+        print("3. View Completed Tasks")
+        print("4. Complete Task")
+        print("5. Delete Task")
+        print("6. Exit")
 
     def add_task(self):
         task_name = input("Enter task name: ")
         self.tasks.append({"name": task_name, "completed": False})
-        print(Fore.GREEN + f"Task '{task_name}' added successfully!" + Style.RESET_ALL)
+        print("Task added successfully!")
 
     def view_tasks(self):
         if not self.tasks:
-            print(Fore.YELLOW + "No tasks available." + Style.RESET_ALL)
+            print("No tasks available.")
         else:
-            print("\n" + Fore.YELLOW + "Tasks:" + Style.RESET_ALL)
+            print("\nTasks:")
             for index, task in enumerate(self.tasks, start=1):
-                status = Fore.GREEN + "Completed" + Style.RESET_ALL if task["completed"] else Fore.RED + "Not Completed" + Style.RESET_ALL
+                status = "Completed" if task["completed"] else "Not Completed"
                 print(f"{index}. {task['name']} - {status}")
+
+    def view_completed_tasks(self):
+        completed_tasks = [task for task in self.tasks if task["completed"]]
+        if not completed_tasks:
+            print("No completed tasks available.")
+        else:
+            print("\nCompleted Tasks:")
+            for index, task in enumerate(completed_tasks, start=1):
+                print(f"{index}. {task['name']} - Completed")
 
     def complete_task(self):
         self.view_tasks()
-        if not self.tasks:
-            print(Fore.YELLOW + "No tasks available." + Style.RESET_ALL)
-            return
-
         task_index = int(input("Enter the task number to mark as complete: ")) - 1
 
         if 0 <= task_index < len(self.tasks):
             self.tasks[task_index]["completed"] = True
-            print(Fore.BLUE + "Task marked as complete!" + Style.RESET_ALL)
+            print("Task marked as complete!")
         else:
-            print(Fore.RED + "Invalid task number." + Style.RESET_ALL)
+            print("Invalid task number.")
 
     def delete_task(self):
         self.view_tasks()
-        if not self.tasks:
-            print(Fore.YELLOW + "No tasks available." + Style.RESET_ALL)
-            return
-
         task_index = int(input("Enter the task number to delete: ")) - 1
 
         if 0 <= task_index < len(self.tasks):
-            deleted_task_name = self.tasks[task_index]["name"]
             del self.tasks[task_index]
-            print(Fore.MAGENTA + f"Task '{deleted_task_name}' deleted successfully!" + Style.RESET_ALL)
+            print("Task deleted successfully!")
         else:
-            print(Fore.RED + "Invalid task number." + Style.RESET_ALL)
+            print("Invalid task number.")
 
     def run(self):
         while True:
-            self.display_menu()
-            choice = input("Enter your choice (1-5): ")
+            self.menu()
+            choice = input("Enter your choice (1-6): ")
 
             if choice == "1":
                 self.add_task()
             elif choice == "2":
                 self.view_tasks()
             elif choice == "3":
-                self.complete_task()
+                self.view_completed_tasks()
             elif choice == "4":
-                self.delete_task()
+                self.complete_task()
             elif choice == "5":
-                print(Fore.RED + "Thank you! Goodbye!" + Style.RESET_ALL)
+                self.delete_task()
+            elif choice == "6":
+                print("Thank You!!! Goodbye!")
                 break
             else:
-                print(Fore.RED + "Invalid choice. Please enter a number between 1 and 5." + Style.RESET_ALL)
+                print("Please enter a number between 1 and 6.")
+
 
 # Create an instance of the TaskManager and run the application
 task_manager = TaskManager()
 task_manager.run()
-
